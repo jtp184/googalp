@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require 'bundler'
+require 'colorize'
+
+Bundler.require(:development, :default)
+
+def name_of_file
+  return @mainf + "_spec.rb"
+end
+
+def initial_content
+  c_str = "require '#{@mainf}'\n\ndescribe %{klass} do\n  \nend"
+  cl_name = @mainf.split('_').map(&:capitalize).join
+
+  c_str % {klass: cl_name}
+end
+
+def create_spec
+  fpath = Dir.pwd + "/spec/"
+  fpath << name_of_file
+
+  File.open(fpath, 'w+') { |f| f << initial_content }
+end
+
+def main
+  if ARGV.empty?
+    puts "ERROR: ".red << "NO FILE"
+    abort
+  end
+
+  @mainf = ARGV.first.match(/(\w*)\.rb/)[1]
+
+  f = create_spec
+  puts "Created Spec".yellow << " #{File.realpath(f)}"
+end
+
+main
