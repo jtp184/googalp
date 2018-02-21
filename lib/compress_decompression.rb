@@ -5,26 +5,27 @@ module CompressDecompression
     lets = []
     result = ""
 
-    input.chars.each do |char|
+    input.scan(/\d+|\[|\]|[a-z]/).each do |char|
+      slug = [brak, nums, lets, result]
       case char
       when /\d+/
         nums << char.to_i
-        debugcase('number', brak, nums, lets, result)
+        log('number', slug)
       when '['
         brak << char
-        debugcase('left bracket', brak, nums, lets, result)
+        log('left bracket', slug)
       when ']'
         brak.pop
         result << (lets.join * nums.pop)
         lets.clear
-        debugcase('right bracket', brak, nums, lets, result)
+        log('right bracket', slug)
       when /[a-z]/
         if brak.empty?
           result << char
         else
           lets << char
         end
-        debugcase('letter', brak, nums, lets, result)
+        log('letter', slug)
       end
     end
 
@@ -33,8 +34,7 @@ module CompressDecompression
 
   # protected
 
-  def self.debugcase(c, b, n, l, r)
-   # STDERR.puts("Case: #{c}")
-   # STDERR.puts([b, n, l, r].inspect)
+  def self.log(*incoming)
+   # STDERR.puts incoming.inspect
  end
 end

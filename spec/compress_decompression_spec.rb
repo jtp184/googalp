@@ -4,6 +4,7 @@ $test_cases = {
   '1[a]' => 'a',
   '1[abc]' => 'abc',
   '3[abc]' => 'abcabcabc',
+  '10[abc]' => "abcabcabcabcabcabcabcabcabcabc",
   '3[abc]4[ab]c' => 'abcabcabcababababc',
   '2[3[a]b]' => 'aaabaaab',
 }
